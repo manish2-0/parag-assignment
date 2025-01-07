@@ -8,10 +8,11 @@ module.exports = {
   development: {
     client: 'mysql2',
     connection: {
-      host: "157.230.126.39",
-      user: "manish-parag",
-      password: "Mkanish@20",
-      database: "parag_assignment"
+
+      host: "bbj0vnnensjahzb1uay7-mysql.services.clever-cloud.com",
+      user: "udghjk3sg7r3wy8l",
+      password: "nPEwWiZSDKCQG5VxmiE0",
+      database: "bbj0vnnensjahzb1uay7"
 
     },
     migrations: {
