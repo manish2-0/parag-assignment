@@ -1,6 +1,6 @@
 const moment = require('moment');
 const { compareDates } = require('../helper');
-const { subscriptionsave, checksubscription, updatesubscription, deletesubscrip, getcustomers } = require('../model');
+const { subscriptionsave, checksubscription, updatesubscription, deletesubscrip, getcustomers, addformdata, getformdata } = require('../model');
 
 const currentDateServer = moment().format('YYYY-MM-DD');
 
@@ -95,6 +95,37 @@ exports.subscription = async (req, res) => {
             message: error.message
         })
     }
+
+}
+
+
+exports.newform = async (req, res) => {
+    let {typeofquestions,inputs} = req.body;
+
+    try {
+        let insert_data = await addformdata(typeofquestions,inputs);
+
+        if (insert_data) {
+            return res.send({
+                status: true,
+                message: "Form added successfully"
+            })
+        }
+        else {
+            return res.send({
+                status: false,
+                message: "Form not created"
+            })
+        }
+
+        
+    } catch (error) {
+        return res.send({
+            status: false,
+            message: error.message
+        })
+    }
+
 
 }
 
@@ -276,6 +307,38 @@ exports.getsubscription = async (req, res) => {
                 status: true,
                 data: { "customer_id": customer_id, "data": data },
                 message:"Customer List"
+            })
+        }
+
+    } catch (error) {
+        return res.send({
+            status: false,
+            message:error.message
+        })
+    }
+
+}
+
+
+exports.getform = async (req, res) => {
+    let { formid } = req.params;
+
+    try {
+        let data = await getformdata(formid);
+
+        if (!data) {
+            return res.send({
+                status: false,
+                message: "Something went wrong"
+            })
+        }
+        else {
+            return res.send({
+                status: true,
+                data: data,
+                form_type:JSON.parse(data[0].form_type),
+                form_inputs:JSON.parse(data[0].form_inputs),
+                message:"Form data"
             })
         }
 

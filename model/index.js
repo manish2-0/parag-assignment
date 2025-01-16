@@ -24,6 +24,25 @@ exports.subscriptionsave = async (customer_id, product_name, quantity, price_per
 
 }
 
+
+exports.addformdata = async (typeofquestions,inputs) => {
+
+    let data = {
+        "form_type":JSON.stringify(typeofquestions),
+        "form_inputs":JSON.stringify(inputs)
+    }
+
+    try {
+        await knexConnect('formdata').insert(data);
+        return true;
+    } catch (error) {
+
+        return false;
+
+    }
+
+}
+
 exports.checksubscription = async (subscription_id) => {
     try {
         let data = await knexConnect('subs').select().where("subscription_id", subscription_id);
@@ -69,6 +88,25 @@ exports.getcustomers = async (customer_id) => {
         let data = await knexConnect('subs').select().where("customer_id", customer_id);
         return data;
     } catch (error) {
+        return false;
+    }
+
+}
+
+
+exports.getformdata = async (formid) => {
+
+    try {
+        let data = await knexConnect('formdata').select().where("form_id", formid);
+        if(data.length>0)
+        {
+            return data;
+        }
+        else{
+            return false;
+        }
+    } catch (error) {
+        console.log(error)
         return false;
     }
 
